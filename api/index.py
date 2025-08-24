@@ -1,40 +1,24 @@
-# 파일 이름: api/chat.py
-
+# 파일: api/index.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import requests
-import json
-import os
+import requests, json, os
 
-# API 키를 환경 변수에서 가져옵니다.
 API_KEY = os.environ.get('GEMINI_API_KEY')
 GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={API_KEY}"
 
 app = Flask(__name__)
 CORS(app)
 
-# ⬇️ 여기가 수정된 부분입니다 ⬇️
-# Vercel이 /api/chat 요청을 이 파일로 보내주기 때문에,
-# 이 파일 안에서는 기본 경로('/')만 처리하면 됩니다.
 @app.route('/chat', methods=['POST'])
 def handle_chat():
     user_message = request.json['message']
-    # 매번 새로운 대화를 시작합니다.
     chat_history = [{"role": "user", "parts": [{"text": user_message}]}]
 
     if not API_KEY:
         return jsonify({'response': "서버에 API 키가 설정되지 않았습니다."})
 
-    payload = {
-        "contents": chat_history,
-        "safetySettings": [
-            {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
-            {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
-            {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
-            {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"}
-        ]
-    }
-
+    # (이하 Gemini API 호출 로직은 그대로 유지)
+    payload = {"contents": chat_history, "safetySettings": [{"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},{"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},{"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},{"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"}]}
     try:
         response = requests.post(GEMINI_API_URL, headers={'Content-Type': 'application/json'}, data=json.dumps(payload))
         response.raise_for_status()
@@ -43,5 +27,4 @@ def handle_chat():
     except Exception as e:
         print(f"API 호출 오류: {e}")
         bot_response = "죄송합니다, 답변 생성 중 오류가 발생했습니다."
-
     return jsonify({'response': bot_response})
