@@ -9,7 +9,7 @@ GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemin
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/chat', methods=['POST'])
+@app.route('/', methods=['POST'])
 def handle_chat():
     user_message = request.json['message']
     chat_history = [{"role": "user", "parts": [{"text": user_message}]}]
