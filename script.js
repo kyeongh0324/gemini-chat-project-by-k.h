@@ -19,7 +19,7 @@ async function sendMessage() {
 
     try {
         // ⬇️ 백엔드 서버의 전체 주소를 정확하게 입력합니다 ⬇️
-        const response = await fetch('http://kyeongh0324.pythonanywhere.com/chat', {
+        const response = await fetch('http://gemini-chat-project-by-k-h.onrender.com/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
