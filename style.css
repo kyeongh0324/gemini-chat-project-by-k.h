@@ -1,45 +1,129 @@
+/* --- 기본 설정 --- */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
+/* --- 채팅 전체 컨테이너 --- */
 .chat-container {
-    max-width: 600px;
-    margin: 50px auto;
-    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 500px;
+    height: 80vh;
     background-color: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
 }
 
+/* --- ⬇️ 여기가 수정된 부분입니다 (로고 추가) ⬇️ --- */
+/* --- 대화가 표시되는 창 --- */
 .chat-window {
-    height: 400px;
-    padding: 10px;
-    overflow-y: auto; /* 내용이 많아지면 스크롤 생성 */
-    border-bottom: 1px solid #ccc;
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    position: relative; 
+    
+    /* 로고 이미지 설정 */
+    background-image: url('images/kyeongHwani.png'); /* images 폴더 안의 로고 파일 */
+    background-repeat: no-repeat; /* 이미지가 반복되지 않도록 설정 */
+    background-position: 15px 15px; /* 왼쪽 위에서 15px씩 떨어진 위치 */
+    background-size: 120px; /* 로고 이미지의 가로 크기 */
+    
+    /* 로고와 메시지가 겹치지 않도록 위쪽에 공간 확보 */
+    padding-top: 60px; 
+}
+/* --- ⬆️ 로고 추가 끝 ⬆️ --- */
+
+
+/* --- 배경 텍스트 스타일 (주석 처리) --- */
+/* 이전 배경 텍스트는 로고와 겹치므로 잠시 주석 처리합니다.
+.chat-window::before {
+    content: "경환i made by 경환";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 2.5em; 
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.05); 
+    z-index: 0;
+    pointer-events: none;
+}
+*/
+
+/* --- 메시지 말풍선 스타일 --- */
+.message-container {
+    display: flex;
+    flex-direction: column;
 }
 
+.message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 75%;
+    line-height: 1.5;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    position: relative;
+    z-index: 1;
+}
+
+.bot-message {
+    background-color: #e9eaf0;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.user-message {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+/* --- 입력창과 버튼 컨테이너 --- */
 .input-container {
     display: flex;
-    padding: 10px;
+    padding: 15px;
+    border-top: 1px solid #e0e0e0;
+    align-items: center;
 }
 
 #userInput {
-    flex-grow: 1; /* 입력창이 남는 공간을 모두 차지 */
-    padding: 8px;
+    flex-grow: 1;
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 20px;
+    font-size: 16px;
+    outline: none;
 }
 
+/* --- 전송 버튼 아이콘 스타일 --- */
 #sendButton {
-    padding: 8px 15px;
-    margin-left: 10px;
-    background-color: #007bff;
-    color: white;
+    background-color: transparent;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    padding: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23007bff'%3E%3Cpath d='M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px;
+    text-indent: -9999px;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0.8;
+    transition: opacity 0.2s;
 }
 
 #sendButton:hover {
-    background-color: #0056b3;
+    opacity: 1;
 }

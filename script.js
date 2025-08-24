@@ -44,12 +44,32 @@ async function sendMessage() {
 }
 
 function addMessage(sender, message) {
-    const messageElement = document.createElement('p');
-    messageElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    const messageContainer = document.querySelector('.message-container');
+    const messageDiv = document.createElement('div');
+
+    // ⬇️ 여기가 수정된 부분입니다 ⬇️
+    let displayName = sender; // 표시될 이름을 저장할 변수
+
     if (sender === '나') {
-        messageElement.style.textAlign = 'right';
-        messageElement.style.color = 'blue';
+        messageDiv.className = 'message user-message';
+    } else { // '나'가 아닌 경우 (Gemini, 오류 등)
+        messageDiv.className = 'message bot-message';
+        // 실제 발신자(sender)가 'Gemini'일 때만 표시 이름을 '경환'으로 변경
+        if (sender === 'Gemini') {
+            displayName = '경환i';
+        }
     }
-    chatWindow.appendChild(messageElement);
+    // ⬆️ 여기까지 수정되었습니다 ⬆️
+
+    // innerHTML 대신 innerText를 사용하고, strong 태그로 이름을 감싸줍니다.
+    const strongElement = document.createElement('strong');
+    strongElement.innerText = `${displayName}: `;
+    
+    messageDiv.appendChild(strongElement);
+    messageDiv.append(message); // append를 사용해 텍스트를 추가합니다.
+
+    messageContainer.appendChild(messageDiv);
+
+    const chatWindow = document.querySelector('.chat-window');
     chatWindow.scrollTop = chatWindow.scrollHeight;
 }
