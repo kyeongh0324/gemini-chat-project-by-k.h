@@ -16,7 +16,7 @@ CORS(app)
 # ⬇️ 여기가 수정된 부분입니다 ⬇️
 # Vercel이 /api/chat 요청을 이 파일로 보내주기 때문에,
 # 이 파일 안에서는 기본 경로('/')만 처리하면 됩니다.
-@app.route('/', methods=['POST'])
+@app.route('/chat', methods=['POST'])
 def handle_chat():
     user_message = request.json['message']
     # 매번 새로운 대화를 시작합니다.
