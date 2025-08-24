@@ -1,4 +1,4 @@
-# 파일 이름: api/index.py
+# 파일 이름: api/chat.py
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -13,9 +13,13 @@ GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemin
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/chat', methods=['POST'])
+# ⬇️ 여기가 수정된 부분입니다 ⬇️
+# Vercel이 /api/chat 요청을 이 파일로 보내주기 때문에,
+# 이 파일 안에서는 기본 경로('/')만 처리하면 됩니다.
+@app.route('/', methods=['POST'])
 def handle_chat():
     user_message = request.json['message']
+    # 매번 새로운 대화를 시작합니다.
     chat_history = [{"role": "user", "parts": [{"text": user_message}]}]
 
     if not API_KEY:
